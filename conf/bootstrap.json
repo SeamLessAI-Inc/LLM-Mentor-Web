@@ -1,0 +1,4 @@
+{
+    "webserver_port": 8086,
+    "store_path": "file_store"
+}

@@ -1,0 +1,16 @@
+{
+  "apps": [
+    {
+      "name": "seamless",
+      "script": "index.js",
+      "cwd": "/home/sugar/seamless",
+      "max_memory_restart": "1024M",
+      "autorestart": true,
+      "node_args": [],
+      "args": [],
+      "env": {
+        "prod": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "seamless",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "db": "/usr/local/opt/mysql@5.7/bin/mysql -hzhuyingda.com -P3306 -uwenxiong -p'jZ4zdFUkyft@pzHtMcFNppPa2zykWTu' -Dthumem < ./task/order.sql"
+  },
+  "author": "5u9ar",
+  "license": "ISC",
+  "dependencies": {
+    "@alicloud/dysmsapi20170525": "2.0.23",
+    "@alicloud/openapi-client": "^0.4.4",
+    "@alicloud/tea-util": "^1.4.5",
+    "@koa/router": "^9.0.1",
+    "ali-oss": "^6.18.0",
+    "axios": "^0.21.4",
+    "get-video-duration": "^4.1.0",
+    "koa": "^2.12.0",
+    "koa-body": "^4.2.0",
+    "koa-ejs": "^4.3.0",
+    "koa-favicon": "^2.1.0",
+    "koa-static": "^5.0.0",
+    "log4js": "^6.3.0",
+    "mime-types": "^2.1.35",
+    "moment-timezone": "^0.5.34",
+    "mysql": "^2.18.1",
+    "redis": "^3.0.2"
+  }
+}

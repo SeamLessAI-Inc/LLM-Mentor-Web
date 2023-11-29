@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seamless AI</title>
+    <style>
+        body {
+            background-color: #d7dbdc;
+        }
+        #container {
+            width: 100%;
+        }
+        section {
+            height: 700px;
+            padding-top: 100px;
+        }
+        .card-type1 {
+            background-color: #f4f5ef;
+        }
+        .card-type2 {
+            background-color: #fafaf9;
+        }
+        .card-type-dark {
+            background-color: #1c184d;
+        }
+        h1 {
+            font-size: 75px;
+            font-weight: 500;
+            font-family: Plus Jakarta Sans,sans-serif;
+            line-height: 60px;
+            height: 80px;
+            margin-left: 80px;
+        }
+        h2 {
+            font-size: 32px;
+            color: rgb(23, 23, 23);
+            font-weight: 400;
+            margin-left: 80px;
+            line-height: 30px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 20px;
+            color: rgb(51, 65, 86);
+            font-weight: 400;
+            margin-left: 80px;
+            line-height: 40px;
+        }
+        .info-wrap {
+            margin-top: 56px;
+        }
+        .banner {
+            background-image: url(/lib/img/shape-steps.jpg);
+            background-repeat: no-repeat;
+            background-position: right bottom;
+        }
+        .lf {
+            background-image: linear-gradient(-45deg,#615aff,#ff4994,#933ae3,#b01b83);
+            background-size: 300%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: font_animate 5s ease infinite;
+        }
+        @keyframes font_animate {
+            0% {
+                background-position: 0 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0 50%;
+            }
+        }
+        nav {
+            height: 76px;
+            background-color: #f4f5ef;
+        }
+        .nav-wrap {
+            margin: 0px auto;
+            display: flex;
+            flex-direction: row;
+            width: 800px;
+            padding-top: 30px;
+            justify-content: center;
+        }
+        .nav-it {
+            margin-left: 20px;
+            height: 46px;
+            font-size: 16px;
+            line-height: 46px;
+            transition: color 0.3s ease;
+        }
+        .nav-it:hover {
+            color: rgb(77, 54, 245);
+            cursor: pointer;
+        }
+        #chat {
+            position: fixed;
+            right: 50px;
+            bottom: 50px;
+            width: 500px;
+        }
+        #chat .hd {
+            background-image: url(/lib/img/chat-header-bg.jpg);
+            background-size: cover;
+            height: 60px;
+            line-height: 60px;
+            color: #fff;
+            padding-left: 10px;
+            font-size: 16px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        #chat .content {
+            padding: 15px;
+            background-color: #fff;
+        }
+        #chat .speak {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            padding: 10px 0 10px 0;
+            max-width: 400px;
+        }
+        #chat .speak .bubble {
+            max-width: 400px;
+        }
+        #chat .speak.bot {
+            justify-content: flex-start;
+            margin: 15px;
+            word-break: break-all;
+        }
+        #chat .bubble {
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            line-height: 22px;
+        }
+        #chat .speak.bot .bubble {
+            background-color: #f7f7f7;
+            color: #34324c;
+        }
+        #chat .speak.you {
+            justify-content: flex-end;
+        }
+        #chat .speak.you .bubble {
+            background-color: #5c5ff6;
+            color: #fff;
+        }
+        #chat .say {
+            height: 80px;
+            background-color: #fff;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            padding: 10px 10px 10px 0;
+            position: relative
+        }
+        #chat .say input {
+            border: none;
+            display: block;
+            width: 480px;
+            margin-left: 10px;
+            height: 60px;
+            line-height: 60px;
+            padding: 0 50px 0 20px;
+            font-size: 16px;
+            color: rgb(100, 116, 139);;
+            background-color: #f9fafc;
+        }
+        #chat .say .submit {
+            position: absolute;
+            right: -2px;
+            top: 30px;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+        }
+        #chat .viewport {
+            overflow-y: scroll;
+            height: 60vh;
+            background-color: #fff;
+        }
+        #chat .bubble p,
+        #chat .bubble h2 {
+            font-size: 16px;
+            margin-left: initial;
+            line-height: initial;
+            font-weight: initial;
+            color: inherit;
+        }
+        #chat .bubble pre {
+            width: 100%;
+        }
+        #chat .bubble code {
+            display: block; /* 或其他需要的display值 */
+            white-space: pre-wrap; /* 保持文本格式但允许换行 */
+            word-wrap: break-word; /* 在长单词或URLs内部进行换行 */
+            overflow-wrap: break-word; /* 确保在边界内换行 */
+        }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+        <nav>
+            <div class="nav-wrap">
+                <div class="nav-it">我们提供什么能力</div>
+                <div class="nav-it">团队成员</div>
+                <div class="nav-it">Model Chain</div>
+            </div>
+        </nav>
+        <section class="card-type1 banner">
+            <h1 class="lf">SeamLess AI</h1>
+            <h2>专业场景定制大模型一站式解决方案</h2>
+            <div class="info-wrap">
+                <h2>What we do</h2>
+                <p>我们相信大模型应该为所有的人带来效率的提升。它应该是易用的，简洁的，便宜的。</p>
+                <p>致力于专业场景大模型定制，精确匹配用户个性化场景的同时，构建零样本启动的。</p>
+                <p>大模型闭环工程底座，提供训练微调推理一体化工具，赋能用户构建完整的大模型体系。</p>
+            </div>
+        </section>
+        <section class="card-type2">
+
+        </section>
+        <section class="card-type1"></section>
+        <section class="card-type2"></section>
+        <section class="card-type1"></section>
+    </div>
+    <div id="chat">
+        <div class="hd">智能对话</div>
+        <div class="viewport">
+            <div class="content"></div>
+        </div>
+        <div class="say">
+            <input type="text" id="prompt" placeholder="请输入..."/>
+            <div class="submit">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="#5F58FF"></circle><path d="M11.5865 11.5862H8.55203M8.50532 11.747L7.21709 15.5951C7.11588 15.8974 7.06528 16.0486 7.1016 16.1417C7.13313 16.2225 7.20086 16.2838 7.28444 16.3071C7.38068 16.334 7.52604 16.2686 7.81676 16.1377L17.0369 11.9887C17.3207 11.861 17.4625 11.7972 17.5064 11.7085C17.5445 11.6314 17.5445 11.541 17.5064 11.4639C17.4625 11.3752 17.3206 11.3114 17.0369 11.1837L7.81355 7.03321C7.5237 6.90278 7.37878 6.83757 7.28264 6.86432C7.19914 6.88755 7.13141 6.94868 7.09977 7.02936C7.06333 7.12227 7.11339 7.2731 7.21352 7.57476L8.50568 11.4679C8.52288 11.5197 8.53147 11.5456 8.53487 11.5721C8.53788 11.5956 8.53785 11.6194 8.53478 11.6429C8.53131 11.6694 8.52265 11.6953 8.50532 11.747Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </div>
+        </div>
+    </div>
+    <script src="/lib/markdown-it.js"></script>
+    <script>
+        document.querySelector('#chat .viewport .content').innerHTML += `
+            <div class="bot speak">
+                <div class="bubble"></div>
+            </div>`;
+        const welcomeTxt = '您好，有什么可以帮您？';
+        let ptr = 0;
+        function renderText() {
+            if (ptr === welcomeTxt.length) return;
+
+            document.querySelector('.speak:last-of-type .bubble').textContent += welcomeTxt[ptr++];
+            setTimeout(renderText, 40);
+        }
+        renderText();
+
+        window.__Seamless_messages = [];
+        let isWaiting = false;
+        const md = new markdownit();
+
+        document.querySelector('#chat .say .submit').addEventListener('click', async (evt) => {
+            console.log('click button');
+            if (isWaiting) return;
+            isWaiting = true;
+            const prompt = document.getElementById('prompt').value;
+            document.getElementById('prompt').value = '';
+            document.querySelector('#chat .viewport .content').insertAdjacentHTML('beforeend', `
+                <div class="you speak">
+                    <div class="bubble">${prompt}</div>
+                </div>`);
+
+            document.querySelector('#chat .viewport .content').insertAdjacentHTML('beforeend', `
+                <div class="bot speak">
+                    <div class="bubble">loading...</div>
+                </div>`);
+
+            const uuid = getUUID();
+            window.__Seamless_messages.push({
+                role: 'user',
+                content: prompt
+            });
+            console.log(`send prompt ${prompt}, uuid ${uuid}`);
+            const result = await fetch('/seamless/completion', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    uuid,
+                    messages: window.__Seamless_messages,
+                })
+            });
+
+            document.querySelector('.speak:last-of-type .bubble').textContent = '';
+            const { body, status } = result;
+            if (status == 400) {
+                console.log('http api status 400');
+                return;
+            }
+            const reader = body.getReader();
+            const decoder = new TextDecoder('utf-8');
+            let partialLine = '';
+            let allContent = '';
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) break;
+                const decodedText = decoder.decode(value, { stream: true });
+                const chunk = partialLine + decodedText
+                const newLines = chunk.split(/\r?\n/)
+                partialLine = newLines.pop() ?? ''
+                for (const line of newLines) {
+                    if (line === 'data: [DONE]') {
+                        window.__Seamless_messages.push({
+                            role: 'assistant',
+                            content: document.querySelector('.speak:last-of-type .bubble').textContent
+                        });
+                        isWaiting = false;
+                        return;
+                    }
+                    if (line.startsWith('data: ')) {
+                        const json = JSON.parse(line.substring(6)); // start with "data: "
+                        const content = json.delta.content ?? '';
+                        allContent += content;
+                        document.querySelector('.speak:last-of-type .bubble').innerHTML = md.render(allContent);
+                        // scrollToBottom()
+                    }
+                }
+            }
+            window.__Seamless_messages.push({
+                role: 'assistant',
+                content: document.querySelector('.speak:last-of-type .bubble').textContent
+            });
+            isWaiting = false;
+        });
+        function getRandomHexChar() {
+            const hexChars = '0123456789abcdef';
+            const randomIndex = Math.floor(Math.random() * hexChars.length);
+            return hexChars[randomIndex];
+        }
+        function getUUID() {
+            let out = '';
+            for (let i = 0; i < 8; i++) {
+                out += getRandomHexChar();
+            }
+            out += '-';
+            for (let i = 0; i < 4; i++) {
+                out += getRandomHexChar();
+            }
+            out += '-';
+            for (let i = 0; i < 4; i++) {
+                out += getRandomHexChar();
+            }
+            out += '-';
+            for (let i = 0; i < 4; i++) {
+                out += getRandomHexChar();
+            }
+            out += '-';
+            for (let i = 0; i < 11; i++) {
+                out += getRandomHexChar();
+            }
+            return out;
+        }
+    </script>
+  </body>
+</html>
