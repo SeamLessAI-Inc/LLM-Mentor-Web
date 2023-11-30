@@ -142,10 +142,10 @@ exports.getSTS = async function () {
 };
 
 function cdnUrl(url) {
-    url = url.replace(/https?:\/\/suoyoutongxue\.oss-cn-hangzhou-internal\.aliyuncs\.com/, 'https://cdn.suoyoutongxue.com');
-    url = url.replace(/https?:\/\/suoyoutongxue\.oss-cn-hangzhou\.aliyuncs\.com/, 'https://cdn.suoyoutongxue.com');
-    url = url.replace(/https?:\/\/oss-cn-hangzhou-internal\.aliyuncs\.com/, 'https://cdn.suoyoutongxue.com');
-    url = url.replace(/https?:\/\/oss-cn-hangzhou\.aliyuncs\.com/, 'https://cdn.suoyoutongxue.com');
+    url = url.replace(/https?:\/\/seamless\.oss-cn-hangzhou-internal\.aliyuncs\.com/, 'https://cdn.seamless.com');
+    url = url.replace(/https?:\/\/seamless\.oss-cn-hangzhou\.aliyuncs\.com/, 'https://cdn.seamless.com');
+    url = url.replace(/https?:\/\/oss-cn-hangzhou-internal\.aliyuncs\.com/, 'https://cdn.seamless.com');
+    url = url.replace(/https?:\/\/oss-cn-hangzhou\.aliyuncs\.com/, 'https://cdn.seamless.com');
     return url;
 }
 
