@@ -22,13 +22,13 @@ module.exports = async (ctx, next) => {
 
     if (!sessionToken) {
         logger.warn(`Session-ctrl no cookie, ip:[${ip}]`);
-        ctx.redirect(`/qzlogin?url=${encodeURIComponent(originUrl)}`);
+        ctx.redirect(`/seamless/login?url=${encodeURIComponent(originUrl)}`);
         return;
     }
     const session = sessionModel.parseSessionToken(sessionToken);
     if (session.status !== 0) {
         logger.warn(`Session-ctrl session status:[session.status], ip:[${ip}]`);
-        ctx.redirect(`/qzlogin?url=${encodeURIComponent(originUrl)}`);
+        ctx.redirect(`/seamless/login?url=${encodeURIComponent(originUrl)}`);
         return;
     }
     logger.info(`Session-ctrl session visit, phone: ${session.phone}`);

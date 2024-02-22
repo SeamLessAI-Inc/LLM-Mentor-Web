@@ -108,3 +108,5 @@ file_store/
 task/dbdata/
 
 package-lock.json
+
+conf/

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <style>
+        body {
+            background: linear-gradient(59.93deg, rgba(12, 146, 255, 0.19) -5.15%, rgba(188, 179, 243, 0.48) 103.81%);
+        }
+        #main {
+            width: 856px;
+            margin: 0 auto;
+            padding-top: 100px;
+        }
+        #main .first_message {
+            background: #FFFFFF;
+            box-shadow: 0px 0px 12px 0px #6CB0E8;
+            width: 100%;
+            height: 56px;
+            border-radius: 222px;
+            opacity: 0.8;
+        }
+        #main .first_message input {
+            color: #2924408F;
+            outline: none;
+            border: none;
+            display: block;
+            font-size: 14px;
+            width: 700px;
+            height: 56px;
+            line-height: 56px;
+            margin: 0 auto;
+        }
+        #main .first_message input::placeholder,
+        #main .first_message input::-webkit-input-placeholder {
+            color: #292440;
+        }
+        #main .mentor-wrap {
+            width: 300px;
+            margin: 0 auto;
+            height: 100px;
+            display: flex;
+        }
+        #main .mentor-wrap .avatar {
+            width: 85px;
+            height: 85px;
+            background-color: #fff;
+            border-radius: 50%;
+        }
+        #main .mentor-wrap .info-wrap {
+            width: 190px;
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        #main .mentor-wrap .name {
+            height: 34px;
+            line-height: 34px;
+            color: #2E318A;
+            font-weight: 500;
+            font-size: 28px;
+        }
+        #main .mentor-wrap .desc {
+            margin-top: 12px;
+            height: 22px;
+            line-height: 22px;
+            color: #292440;
+            font-weight: 400;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <div class="mentor-wrap">
+            <div class="avatar"></div>
+            <div class="info-wrap">
+                <div class="name">LLM plato</div>
+                <div class="desc">Your seamless mentor</div>
+            </div>
+        </div>
+        <div class="first_message">
+            <input type="text" placeholder="Tell me what you want to learn such as ‘Train Ai model’">
+        </div>
+    </div>
+</body>
+</html>

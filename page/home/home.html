@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seamless AI</title>
+    <style>
+        @font-face{
+            font-family: "viga";
+            src: url(https://media.zhuyingda.com/seamless/viga.woff2)format("woff2"),
+                url(https://media.zhuyingda.com/seamless/viga.woff)format("woff");
+        }
+        @font-face{
+            font-family: "outfit400";
+            src: url(https://media.zhuyingda.com/seamless/outfit-400.woff2)format("woff2"),
+                url(https://media.zhuyingda.com/seamless/outfit.woff)format("woff");
+        }
+        @font-face{
+            font-family: "outfit500";
+            src: url(https://media.zhuyingda.com/seamless/outfit-500.woff2)format("woff2"),
+                url(https://media.zhuyingda.com/seamless/outfit.woff)format("woff");
+        }
+        @font-face{
+            font-family: "outfit700";
+            src: url(https://media.zhuyingda.com/seamless/outfit.woff2)format("woff2"),
+                url(https://media.zhuyingda.com/seamless/outfit.woff)format("woff");
+        }
+        @font-face{
+            font-family: "outfit900";
+            src: url(https://media.zhuyingda.com/seamless/outfit-900.woff2)format("woff2"),
+                url(https://media.zhuyingda.com/seamless/outfit.woff)format("woff");
+        }
+        @font-face{
+            font-family: "roboto400";
+            src: url(https://media.zhuyingda.com/seamless/roboto.woff2)format("woff2"),
+                url(https://media.zhuyingda.com/seamless/roboto.woff)format("woff");
+        }
+        @font-face{
+            font-family: "roboto500";
+            src: url(https://media.zhuyingda.com/seamless/roboto-500.woff2)format("woff2"),
+                url(https://media.zhuyingda.com/seamless/roboto.woff)format("woff");
+        }
+        body {
+            background-color: #000235;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        .planet {
+            background-image: url(https://media.zhuyingda.com/seamless/planet.svg);
+            width: 1080px;
+            height: 335px;
+            position: absolute;
+            left: 50%;
+            margin-left: -400px;
+            top: 0;
+            z-index: -1;
+        }
+        .bg {
+            background-image: url(https://media.zhuyingda.com/seamless/bg.svg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 100%;
+            height: 6000px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: -2;
+        }
+
+        nav {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin: 35px auto;
+            width: 1232px;
+        }
+        nav .title {
+            color: #fff;
+            font-weight: 900;
+            font-size: 28px;
+            line-height: 44px;
+            font-weight: 900;
+            font-family: "outfit900";
+        }
+        nav .group {
+            display: flex;
+            flex-direction: row;
+        }
+        nav .group .nav-link {
+            transition: background-color .1s linear;
+            color: #fff;
+            line-height: 30px;
+            font-size: 20px;
+            /* margin: 0 18px; */
+            text-align: center;
+            width: 92px;
+            height: 44px;
+            border-radius: 222px;
+            background-color: transparent;
+            line-height: 44px;
+            cursor: pointer;
+            font-weight: 400;
+            font-family: "outfit400";
+        }
+        nav .group .nav-link:hover {
+            background-color: #0A85EA;
+        }
+        nav .group .nav-link:active {
+            background-color: #076C9E;
+        }
+        .grid-wrap1 {
+            margin-top: 160px;
+            display: grid;
+            grid-template-columns: 1fr 515px 14.3vw 559px 1fr;
+            grid-template-rows: 530px;
+            grid-column-gap: 0;
+        }
+        .grid-wrap2 {
+            margin-top: 155px;
+            display: grid;
+            grid-template-columns: 1fr 561px 13vw 480px 1fr;
+            grid-template-rows: 561px;
+            grid-column-gap: 0;
+        }
+        .sec1 {
+
+        }
+        .sec1 .ico {
+            color: #98ECF7;
+            border: 2px solid #98ECF7;
+            border-radius: 16px 2px 16px 16px;
+            width: 130px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 16px;
+            font-family: "outfit500";
+        }
+        .sec1 .title {
+            width: 461px;
+            height: 126px;
+            line-height: 126px;
+            text-align: left;
+            font-size: 94px;
+            font-weight: 400;
+            color: #fff;
+            font-family: "viga";
+        }
+        .sec1 .sub-title {
+            font-size: 36px;
+            line-height: 45px;
+            color: #fff;
+            font-weight: 400;
+            font-family: "outfit400";
+        }
+        .sec1 .desc {
+            margin-top: 13px;
+            font-size: 20px;
+            line-height: 30px;
+            width: 515px;
+            text-align: left;
+            color: rgba(255,255,255,0.6);
+            font-family: "roboto400";
+            font-weight: 400;
+        }
+        .sec1 button#s1_try {
+            transition: background-image .1s linear;
+            background-image: linear-gradient(92.17deg, #4989BE -3.61%, #DFAEC0 106.68%);
+            width: 500px;
+            height: 72px;
+            border-radius: 16px;
+            margin-top: 48px;
+            cursor: pointer;
+            border: none;
+        }
+        .sec1 button#s1_try:hover {
+            background-image: linear-gradient(92.17deg, #5A9BCF -3.61%, #DFAEC0 106.68%);
+        }
+        .sec1 button#s1_try:active {
+            background-image: linear-gradient(92.17deg, #3B7290 -3.61%, #C98CA3 106.68%);
+        }
+        .sec1 button:active {
+            border: none;
+        }
+        .sec1 button span {
+            color: #fff;
+            width: 100%;
+            font-size: 24px;
+            font-family: "outfit500";
+            font-weight: 500;
+            background-image: url(https://media.zhuyingda.com/seamless/arrow.svg);
+            background-repeat: no-repeat;
+            background-position-y: -8px;
+            background-position-x: 170px;
+            padding-right: 57px;
+        }
+        .sec2 {
+            background-image: url(https://media.zhuyingda.com/seamless/p1.webp);
+            background-repeat: no-repeat;
+            background-position: left top;
+            background-size: contain;
+        }
+        .sec3 {
+            background-image: url(https://media.zhuyingda.com/seamless/p2.webp);
+            background-repeat: no-repeat;
+            background-position: left top;
+            background-size: contain;
+        }
+        .sec4 {
+
+        }
+        .sec4 .title {
+            color: #fff;
+            font-weight: 600;
+            font-size: 48px;
+            font-family: "outfit600";
+            line-height: 60px;
+            margin-top: 84px;
+            position: relative;
+        }
+        .sec4 .title .deco {
+            background-image: url(https://media.zhuyingda.com/seamless/deco.webp);
+            background-repeat: no-repeat;
+            background-size: contain;
+            position: absolute;
+            right: 9px;
+            top: -14px;
+            width: 50px;
+            height: 51px;
+        }
+        .sec4 .desc {
+            margin-top: 13px;
+            line-height: 32px;
+            width: 425px;
+            text-align: left;
+            color: rgba(255,255,255,0.8);
+            font-family: "roboto400";
+            font-size: 24px;
+            font-weight: 400;
+        }
+        .sec4 .diagram {
+            position: relative;
+            width: 463px;
+            height: 318px;
+        }
+        .sec4 .diagram .track {
+            position: absolute;
+            left: -200px;
+            top: -150px;
+            width: 700px;
+            height: 600px;
+            background-image: url(https://media.zhuyingda.com/seamless/track.svg);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .sec4 .diagram .cone {
+            position: absolute;
+            left: 162px;
+            top: 100px;
+            width: 100px;
+            height: 100px;
+            background-image: url(https://media.zhuyingda.com/seamless/cone.webp);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .blank {
+            background-color: transparent;
+        }
+
+        .lp-wrap {
+            margin: 290px auto;
+            width: 1150px;
+        }
+        .lp-wrap .title {
+            color: #fff;
+            font-family: "outfit600";
+            font-size: 48px;
+            font-weight: 600;
+            line-height: 56px;
+            text-align: center;
+        }
+        .lp-wrap .grid-box {
+            margin-top: 149px;
+            display: grid;
+            grid-template-columns: 285px 835px;
+            grid-template-rows: 452px;
+            grid-column-gap: 30px;
+        }
+        .lp-wrap .sec-left .step-wrap {
+            background-image: url(https://media.zhuyingda.com/seamless/lp1.svg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 285px;
+            height: 213px;
+        }
+        .lp-wrap .sec-main .video-wrap {
+            background-image: url(https://media.zhuyingda.com/seamless/video-bg.svg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            width: 835px;
+            height: 493px;
+            padding-top: 30px;
+            position: relative;
+        }
+        .lp-wrap .sec-main .inner-wrap {
+            background-color: #fff;
+            width: 835px;
+            height: 465px;
+        }
+        .lp-wrap .sec-main .video-wrap .deco1 {
+            position: absolute;
+            right: -22px;
+            top: -40px;
+            background-image: url(https://media.zhuyingda.com/seamless/lp2.svg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            width: 112px;
+            height: 67px;
+        }
+        .lp-wrap .sec-main .video-wrap .deco2 {
+            position: absolute;
+            left: -77px;
+            bottom: -7px;
+            background-image: url(https://media.zhuyingda.com/seamless/lp3.svg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            width: 130px;
+            height: 114px;
+        }
+        .lp-wrap .sec-main .video-wrap .deco3 {
+            position: absolute;
+            right: -96px;
+            bottom: -13px;
+            background-image: url(https://media.zhuyingda.com/seamless/lp4.svg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            width: 160px;
+            height: 236px;
+        }
+
+        .hl-wrap {
+            margin: 301px auto;
+            width: 1185px;
+        }
+        .hl-wrap .title {
+            color: #fff;
+            font-family: "outfit600";
+            font-size: 48px;
+            font-weight: 600;
+            line-height: 56px;
+            text-align: center;
+        }
+        .hl-wrap .grid-box {
+            margin-top: 120px;
+            display: grid;
+            grid-template-columns: 363px 363px 363px;
+            grid-template-rows: 450px;
+            grid-column-gap: 48px;
+        }
+        .hl-wrap .grid-box .hl1 .banner {
+            width: 288px;
+            height: 271px;
+            margin: 0 auto;
+            background-image: url(https://media.zhuyingda.com/seamless/hl1.webp);
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .hl-wrap .grid-box .hl2 .banner {
+            width: 280px;
+            height: 255px;
+            margin: 0 auto;
+            background-image: url(https://media.zhuyingda.com/seamless/hl2.webp);
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .hl-wrap .grid-box .hl3 .banner {
+            width: 301px;
+            height: 256px;
+            margin: 0 auto;
+            background-image: url(https://media.zhuyingda.com/seamless/hl3.webp);
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .hl-wrap .grid-box .title {
+            text-align: center;
+            color: #fff;
+            font-family: "outfit600";
+            font-weight: 600;
+            font-size: 28px;
+            line-height: 36px;
+        }
+        .hl-wrap .grid-box .desc {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            font-family: "roboto400";
+            font-weight: 400;
+            font-size: 24px;
+            line-height: 32px;
+        }
+        .hl-wrap .grid-box .hl1 .title {
+            margin: 20px auto 20px;
+        }
+        .hl-wrap .grid-box .hl2 .title {
+            margin: 36px auto 20px;
+        }
+        .hl-wrap .grid-box .hl3 .title {
+            margin: 36px auto 20px;
+        }
+        .hl-wrap .grid-box .hl3 .desc {
+            width: 95%;
+            margin: 0 auto;
+        }
+
+        .team-wrap {
+            margin: 299px auto;
+            width: 1208px;
+        }
+        .team-wrap .title {
+            font-family: "outfit600";
+            font-size: 48px;
+            font-weight: 600;
+            line-height: 56px;
+            text-align: center;
+            color: #fff;
+        }
+        .team-wrap > .desc {
+            font-family: "roboto400";
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 32px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            width: 1001px;
+            margin: 36px auto 36px;
+        }
+        .team-wrap .keyword-box {
+            margin: 36px auto;
+            width: 552px;
+            display: grid;
+            grid-template-columns:160px 160px 160px;
+            grid-template-rows: 48px;
+            grid-column-gap: 36px;
+        }
+        .team-wrap .keyword-box .keyword {
+            width: 160px;
+            height: 48px;
+            color: rgba(255, 255, 255, 0.8);
+            font-family: "roboto400";
+            border: 1px solid #98ECF7;
+            border-radius: 666px;
+            text-align: center;
+            line-height: 48px;
+        }
+        .team-wrap .person-box {
+            margin: 120px auto;
+            width: 1208px;
+            display: grid;
+            grid-template-columns: 328px 328px 328px;
+            grid-template-rows: 632px 632px;
+            grid-column-gap: 112px;
+            grid-row-gap: 120px;
+        }
+        .team-wrap .person-box .person > .avatar {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background-color: #98ECF7;
+            margin: 0 auto;
+        }
+        .team-wrap .person-box .person > .name {
+            font-family: "outfit400";
+            font-size: 36px;
+            font-weight: 400;
+            line-height: 56px;
+            text-align: center;
+            margin: 48px auto;
+            color: #fff;
+        }
+        .team-wrap .person-box .person > .desc {
+            font-family: "roboto400";
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 32px;
+            text-align: left;
+            margin: 32px auto 20px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .team-wrap .person-box .person > .hl {
+            margin-top: 12px;
+            font-family: "outfit400";
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 36px;
+            text-align: left;
+            color: #98ECF7;
+        }
+
+        .footer {
+            margin: 400px auto 0;
+        }
+        .footer > .title {
+            font-family: "roboto400";
+            font-size: 20px;
+            font-weight: 400;
+            line-height: 32px;
+            text-align: center;
+            color: #fff;
+        }
+        .footer > .copyright {
+            font-family: "roboto400";
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 22px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+        }
+    </style>
+  </head>
+  <body>
+    <div class="bg"></div>
+    <nav>
+        <div class="title">P L A T O</div>
+        <div class="group">
+            <div class="nav-link">Home</div>
+            <div class="nav-link">About</div>
+            <% if (isLogin) { %>
+                <div class="nav-link">**<%- phone.slice(7) %></div>
+                <div class="nav-link" id="sign_out">Sign out</div>
+            <% } else { %>
+                <div class="nav-link" id="log_in">Log in</div>
+                <div class="nav-link" id="sign_up">Sign up</div>
+            <% } %>
+        </div>
+    </nav>
+    <div class="planet"></div>
+    <div class="grid-wrap1">
+        <div class="blank"></div>
+        <div class="sec1">
+            <div class="ico">AI technology</div>
+            <div class="title">ACADAMIC</div>
+            <div class="sub-title">A New Learning Paradigm</div>
+            <div class="desc">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum.</div>
+            <button id="s1_try">
+                <span>Feel free to try</span>
+            </button>
+        </div>
+        <div class="blank"></div>
+        <div class="sec2"></div>
+        <div class="blank"></div>
+    </div>
+    <div class="grid-wrap2">
+        <div class="blank"></div>
+        <div class="sec3"></div>
+        <div class="blank"></div>
+        <div class="sec4">
+            <div class="title">Interactive learning<div class="deco"></div></div>
+            <div class="desc">Leverage plato to address the confusion by interact with multiple roles generated by AI.</div>
+            <div class="diagram">
+                <div class="track"></div>
+                <div class="cone"></div>
+            </div>
+        </div>
+        <div class="blank"></div>
+    </div>
+    <div class="lp-wrap">
+        <div class="title">Learning process</div>
+        <div class="grid-box">
+            <div class="sec-left">
+                <div class="step-wrap">
+
+                </div>
+            </div>
+            <div class="sec-main">
+                <div class="video-wrap">
+                    <div class="inner-wrap"></div>
+                    <div class="deco1"></div>
+                    <div class="deco2"></div>
+                    <div class="deco3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hl-wrap">
+        <div class="title">Highlights</div>
+        <div class="grid-box">
+            <div class="hl1">
+                <div class="banner"></div>
+                <div class="title">Proactive knowledge</div>
+                <div class="desc">Provide proactive knowledge delivery with chat.</div>
+            </div>
+            <div class="hl2">
+                <div class="banner"></div>
+                <div class="title">learning ecosystem</div>
+                <div class="desc">Building a learning ecosystem with roles</div>
+            </div>
+            <div class="hl3">
+                <div class="banner"></div>
+                <div class="title">Personal knowledge base</div>
+                <div class="desc">Develop personal knowledge base which evolves with users’ learning history.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="team-wrap">
+        <div class="title">Strong Team</div>
+        <div class="desc">One or two sentence to simply introduce your team with what kind of strong background.One or two sentence to simply introduce your team with what kind of strong background.</div>
+        <div class="keyword-box">
+            <div class="keyword">keyword</div>
+            <div class="keyword">keyword</div>
+            <div class="keyword">keyword</div>
+        </div>
+        <div class="person-box">
+            <div class="person">
+                <div class="avatar"></div>
+                <div class="name">Person name</div>
+                <div class="desc">One or two sentence to simply introduce team members’ background. One or two sentence to simply introduce team members’ background</div>
+                <div class="hl">highlights</div>
+                <div class="hl">highlights</div>
+            </div>
+            <div class="person">
+                <div class="avatar"></div>
+                <div class="name">Person name</div>
+                <div class="desc">One or two sentence to simply introduce team members’ background. One or two sentence to simply introduce team members’ background</div>
+                <div class="hl">highlights</div>
+                <div class="hl">highlights</div>
+            </div>
+            <div class="person">
+                <div class="avatar"></div>
+                <div class="name">Person name</div>
+                <div class="desc">One or two sentence to simply introduce team members’ background. One or two sentence to simply introduce team members’ background</div>
+                <div class="hl">highlights</div>
+                <div class="hl">highlights</div>
+            </div>
+            <div class="person">
+                <div class="avatar"></div>
+                <div class="name">Person name</div>
+                <div class="desc">One or two sentence to simply introduce team members’ background. One or two sentence to simply introduce team members’ background</div>
+                <div class="hl">highlights</div>
+                <div class="hl">highlights</div>
+            </div>
+            <div class="person">
+                <div class="avatar"></div>
+                <div class="name">Person name</div>
+                <div class="desc">One or two sentence to simply introduce team members’ background. One or two sentence to simply introduce team members’ background</div>
+                <div class="hl">highlights</div>
+                <div class="hl">highlights</div>
+            </div>
+            <div class="person">
+                <div class="avatar"></div>
+                <div class="name">Person name</div>
+                <div class="desc">One or two sentence to simply introduce team members’ background. One or two sentence to simply introduce team members’ background</div>
+                <div class="hl">highlights</div>
+                <div class="hl">highlights</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="title">Seamless Lab</div>
+        <div class="copyright">Copyright (c) 2023-present</div>
+    </div>
+    <script>
+        document.getElementById('log_in')?.addEventListener('click', goToSignUp);
+        document.getElementById('sign_up')?.addEventListener('click', goToSignUp);
+
+        document.getElementById('sign_out')?.addEventListener('click', function () {
+            document.cookie = 'session=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;';
+            location.reload();
+        });
+        document.getElementById('s1_try').addEventListener('click', function () {
+            location.href = '/seamless/chat';
+        });
+        function goToSignUp() {
+            location.href = '/seamless/signup';
+        }
+    </script>
+  </body>
+</html>

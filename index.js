@@ -53,13 +53,16 @@ app.use(static(
 app.use(favicon(__dirname + '/static/favicon.ico'));
 
 const router = new Router();
-router.get('/', require('./page/seamless/index.js'));
+router.get('/', require('./page/home/home.js'));
 router.get('/seamless', require('./page/seamless/index.js'));
+router.get('/seamless/signup', require('./page/login/login.js'));
+router.get('/seamless/login', require('./page/login/login.js'));
+router.get('/seamless/chat', sessionMW, require('./page/chat/chat.js'));
 router.post('/seamless/completion', koaBodyMW, require('./page/seamless/completion.js'));
 router.get('/seamless/llmchat', require('./page/llmchat/index.js'));
 
-// router.post('/api/sms_send', koaBodyMW, require('./api/user/sms_send.js'));
-// router.post('/api/sms_verify', koaBodyMW, require('./api/user/sms_verify.js'));
+router.post('/seamless/sms_send', koaBodyMW, require('./api/user/sms_send.js'));
+router.post('/seamless/sms_verify', koaBodyMW, require('./api/user/sms_verify.js'));
 
 
 app.use(router.routes());
@@ -67,7 +70,7 @@ app.use(errorMW);
 
 (async () => {
     // await db.getConn();
-    // await redis.connect();
+    await redis.connect();
     app.listen(PORT);
     logger.info(`seamless project listening ${PORT}`);
 })();

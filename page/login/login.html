@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seamless Sign Up</title>
+    <style>
+        @font-face{
+            font-family: "lemon";
+            src: url(https://media.zhuyingda.com/seamless/lemon.woff2)format("woff2"),
+                url(https://media.zhuyingda.com/seamless/lemon.woff)format("woff");
+        }
+        @font-face{
+            font-family: "readexpro";
+            src: url(https://media.zhuyingda.com/seamless/readexpro-500.woff2)format("woff2"),
+                url(https://media.zhuyingda.com/seamless/readexpro-500.woff)format("woff");
+        }
+        body {
+            background: linear-gradient(59.93deg, rgba(12, 146, 255, 0.19) -5.15%, rgba(188, 179, 243, 0.48) 103.81%);
+        }
+        #main_wrap {
+            background-color: #FFFFFFA3;
+            width: 544px;
+            /* height: 476px; */
+            margin: 168px auto;
+            border-radius: 16px;
+            padding-top: 42px;
+            padding-bottom: 48px;
+        }
+        #main_wrap .main-title {
+            background-image: linear-gradient(90deg, #A760F2 0%, #00CAFA 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 20px;
+            margin: 0 auto 24px;
+            width: 100px;
+            height: 32px;
+            text-align: center;
+            line-height: 32px;
+            font-family: "readexpro";
+            font-weight: 500;
+        }
+        #main_wrap .sub-title {
+            color: #292440E0;
+            text-align: center;
+            width: 100%;
+            font-weight: 400;
+            font-family: "lemon";
+            line-height: 20.0px;
+            font-size: 16px;
+        }
+        #main_wrap .text-field {
+            margin: 16px auto;
+            width: 400px;
+            height: 48px;
+            background-color: #fff;
+            border-radius: 888px;
+            display: flex;
+        }
+        #main_wrap .text-field input {
+            color: #292440;
+            outline: none;
+            border: none;
+            display: block;
+            font-size: 14px;
+            width: 300px;
+            height: 48px;
+            line-height: 48px;
+            margin: 0 auto;
+        }
+        #main_wrap button#submit {
+            width: 400px;
+            height: 48px;
+            margin: 20px auto;
+            display: block;
+        }
+        #main_wrap button#send {
+            height: 48px;
+            padding: 0 15px 0;
+        }
+        #main_wrap .text-field input#vcode {
+            margin-left: 50px;
+        }
+        .btn {
+            background: linear-gradient(89.39deg, #0A85EA 0.47%, #BCB3F3 93.69%);
+            color: #fefefe;
+            font-weight: 500;
+            font-size: 14px;
+            height: 48px;
+            border-radius: 888px;
+            line-height: 48px;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+            white-space: nowrap;
+        }
+        .btn.disable {
+            background: linear-gradient(89.39deg, rgba(10, 133, 234, 0.5) 0.47%, rgba(188, 179, 243, 0.5) 93.69%);
+            cursor: progress;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="main_wrap">
+        <div class="main-title">Plato</div>
+        <div class="sub-title">Nice to see you again</div>
+        <div class="text-field">
+            <input type="text" id="phone" placeholder="input your phone number">
+        </div>
+        <div class="text-field">
+            <input type="text" id="vcode" placeholder="input verify code">
+            <button id="send" class="btn">send verify code</button>
+        </div>
+        <button id="submit" class="btn">Sign in</button>
+    </div>
+    <script>
+        window._PHONE_REF = '-';
+        const sendBtn = document.getElementById('send');
+        const submitBtn = document.getElementById('submit');
+        const phoneInput = document.getElementById('phone');
+        const vcodeInput = document.getElementById('vcode');
+        sendBtn.addEventListener('click', async () => {
+            if (sendBtn.getAttribute('class') === 'btn disable') {
+                return;
+            }
+            sendBtn.setAttribute('class', 'btn disable');
+            let succ = await serverSendCode();
+            if (succ) {
+                timeout();
+            }
+        });
+        submitBtn.addEventListener('click', serverLogin);
+        function serverLogin() {
+            fetch('/seamless/sms_verify', {
+                method: "POST",
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    ref: window._PHONE_REF,
+                    code: vcodeInput.value
+                })
+            })
+                .then(async (response) => {
+                    const ret = await response.json();
+                    if (ret.status.code === 0) {
+                        saveCookie('session', ret.data.token);
+                        const urlParams = new URLSearchParams(window.location.search);
+                        let redirectUrl = urlParams.get('url');
+                        if (!redirectUrl) {
+                            redirectUrl = '/';
+                        }
+                        console.log('to redirect:', redirectUrl);
+                        setTimeout(() => {
+                            location.href = redirectUrl;
+                        }, 10);
+                    }
+                    else if (ret.status.code === 1012) {
+                        alert('wrong code');
+                        return Promise.resolve(false);
+                    }
+                    else if (ret.status.code === 1013) {
+                        alert('you are not allowed, please contact to us');
+                        return Promise.resolve(false);
+                    }
+                    else if (ret.status.code === 1019) {
+                        alert('expired code');
+                        return Promise.resolve(false);
+                    }
+                    else {
+                        alert('system error, errcode:' + ret.status.code);
+                    }
+                });
+        }
+        function serverSendCode() {
+            return fetch('/seamless/sms_send', {
+                method: "POST",
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    phone: phoneInput.value
+                })
+            })
+                .then(async (response) => {
+                    const ret = await response.json();
+                    if (ret.status.code === 0) {
+                        window._PHONE_REF = ret.data.ref;
+                        return Promise.resolve(true);
+                    }
+                    else if (ret.status.code === 1011) {
+                        alert('invalid phone');
+                        return Promise.resolve(false);
+                    }
+                    else if (ret.status.code === 1020) {
+                        alert('send failed');
+                        return Promise.resolve(false);
+                    }
+                    else {
+                        alert('system error, errcode:' + ret.status.code);
+                        return Promise.resolve(false);
+                    }
+                });
+        }
+        function timeout() {
+            let sec = 60;
+            const loop = setInterval(() => {
+                sec--;
+                if (sec === 0) {
+                    sendBtn.innerText = 'send verify code';
+                    sendBtn.setAttribute('class', 'btn');
+                    clearInterval(loop);
+                }
+                else {
+                    sendBtn.innerText = `after ${sec}s resend`;
+                }
+            }, 1000);
+        }
+        function saveCookie(key, value) {
+            let now = new Date();
+            let time = now.getTime();
+            let expireTime = time + 1000 * 36000;
+            now.setTime(expireTime);
+            document.cookie = `${key}=${value};expires=${now.toUTCString()};path=/;`;
+        }
+    </script>
+  </body>
+</html>
