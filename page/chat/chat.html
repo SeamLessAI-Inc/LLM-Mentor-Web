@@ -11,6 +11,7 @@
         }
         .nav {
             margin: 0 36px 0 36px;
+            width: calc(100vw - 72px);
             height: 64px;
             display: flex;
             flex-direction: row;
@@ -50,9 +51,9 @@
         #enter_container {
             width: 856px;
             margin: 0 auto;
-            padding-top: 100px;
+            padding-top: 40px;
         }
-        #enter_container .first_message {
+        #enter_container .first-message {
             position: relative;
             background: #FFFFFF;
             box-shadow: 0px 0px 12px 0px #6CB0E8;
@@ -62,7 +63,7 @@
             opacity: 0.8;
             margin-top: 70px;
         }
-        #enter_container .first_message input {
+        #enter_container .first-message input {
             color: #2924408F;
             outline: none;
             border: none;
@@ -73,7 +74,7 @@
             line-height: 56px;
             margin: 0 auto;
         }
-        #enter_container .first_message #start_chat {
+        #enter_container .first-message #start_chat {
             position: absolute;
             right: 10px;
             top: 8px;
@@ -83,16 +84,17 @@
             cursor: pointer;
             background: linear-gradient(63.98deg, #0A85EA 7.56%, #BCB3F3 87.52%), linear-gradient(0deg, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0.36));
         }
-        #enter_container .first_message #start_chat .ico {
-            width: 20px;
+        #enter_container .first-message #start_chat .ico {
+            width: 20.97px;
             height: 19.8px;
             margin-top: 9px;
             margin-left: 24px;
             background-image: url(/asset/img/handup.png);
+            background-repeat: no-repeat;
             background-size: contain;
         }
-        #enter_container .first_message input::placeholder,
-        #enter_container .first_message input::-webkit-input-placeholder {
+        #enter_container .first-message input::placeholder,
+        #enter_container .first-message input::-webkit-input-placeholder {
             color: #2924408F;
         }
         #enter_container .mentor-wrap {
@@ -185,6 +187,188 @@
             text-align: center;
         }
     </style>
+    <style>
+        #chat_container {
+            width: 1124px;
+            margin: 0 auto;
+        }
+        #chat_list {
+            width: 100%;
+            height: calc(100vh - 203px);
+            overflow-y: scroll;
+        }
+        #chat_list .my-session {
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            margin-top: 16px;
+        }
+        #chat_list .speak {
+            line-height: 40px;
+            font-size: 14px;
+            font-weight: 400;
+        }
+        #chat_list .my-session .speak {
+            border: solid 1px transparent;
+            border-radius: 0 30px 30px 30px;
+            background-image: linear-gradient(#dce5fb, #dde4fb),linear-gradient(89.87deg, #323593 -1.18%, #E84B23 102.55%);
+            /* 上面这个内部区域的颜色比较trick 因为目前没找到办法让bg-img+bg-origin+bg-clicp这种 圆角渐变色边框的内容区域透明的方案 */
+            background-origin: border-box;
+            background-clip: content-box, border-box;
+        }
+        #chat_list .speak .inner {
+            padding: 12px 20px 12px 20px;
+        }
+        #chat_list .my-session .avatar {
+            width: 48px;
+            height: 48px;
+            margin-right: 22px;
+            background-image: url(/asset/img/avatar-female.png);
+            background-size: contain;
+            background-repeat: no-repeat;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .loading-wrap {
+            display: flex;
+            margin-left: 60px;
+            margin-top: 24px;
+        }
+        .loading-wrap .loading {
+            width: 20px;
+            height: 20px;
+            position: relative;
+        }
+        .loading-wrap .loading .arrow {
+            background-image: url(/asset/img/loading-arrow.png);
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center center;
+            position: absolute;
+            width: 5.36px;
+            height: 9.11px;
+            left: 7.32px;
+            top: 5.45px;
+        }
+        .loading-wrap .loading .circle {
+            background-image: url(/asset/img/loading-circle.png);
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center center;
+            position: absolute;
+            width: 19.2px;
+            height: 19.2px;
+            left: 0.4px;
+            top: 0.41px;
+            animation: loading 1s linear infinite;
+        }
+        @keyframes loading {
+            from {
+                transform: rotate(0);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .loading-wrap .loading-text {
+            background-image: linear-gradient(90.41deg, #0A54C4 0.02%, #E84B23 65.3%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 19.36px;
+            padding-left: 12px;
+        }
+        #chat_list .mentor-session {
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            margin-top: 26px;
+        }
+        #chat_list .mentor-session .avatar {
+            width: 48px;
+            height: 48px;
+            margin-right: 22px;
+            background-image: url(/asset/img/avatar-mentor.png);
+            background-size: contain;
+            background-repeat: no-repeat;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        #chat_list .mentor-session .speak-group .speak {
+            border-radius: 0 24px 24px 24px;
+            background-color: #fff;
+            margin-top: 16px;
+        }
+        #chat_list .mentor-session .speak-group .name {
+            font-size: 14px;
+            font-weight: 400;
+            text-align: left;
+            color: #2924408F;
+        }
+        #chat_list .mentor-session .speak-group .name + .speak {
+            margin-top: 12px;
+        }
+    </style>
+    <style>
+        #menu_group .textfield {
+            background-color: #fff;
+            position: relative;
+            background: #FFFFFF;
+            box-shadow: 0px 0px 12px 0px #6CB0E8;
+            width: 1052px;
+            height: 56px;
+            border-radius: 222px;
+            opacity: 0.8;
+            margin-left: 72px;
+            position: relative;
+        }
+        #menu_group .textfield::before {
+            content: "";
+            background-image: url(/asset/img/ico-star.svg);
+            background-size: contain;
+            width: 22px;
+            height: 22px;
+            position: absolute;
+            left: 20px;
+            top: 16px;
+        }
+        #menu_group .textfield input {
+            color: #2924408F;
+            outline: none;
+            border: none;
+            display: block;
+            font-size: 14px;
+            width: 900px;
+            height: 56px;
+            line-height: 56px;
+            margin: 0 auto;
+        }
+        #menu_group .textfield #send_prompt {
+            position: absolute;
+            right: 10px;
+            top: 8px;
+            border-radius: 196.56px;
+            width: 72px;
+            height: 40px;
+            cursor: pointer;
+            background: linear-gradient(63.98deg, #0A85EA 7.56%, #BCB3F3 87.52%), linear-gradient(0deg, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0.36));
+        }
+        #menu_group .textfield #send_prompt .ico {
+            width: 20.97px;
+            height: 19.8px;
+            margin-top: 9px;
+            margin-left: 24px;
+            background-image: url(/asset/img/handup.png);
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+        #menu_group .textfield input::placeholder,
+        #menu_group .textfield input::-webkit-input-placeholder {
+            color: #2924408F;
+        }
+    </style>
 </head>
 <body>
     <div class="nav">
@@ -196,7 +380,7 @@
             <div class="avatar"></div>
         </div>
     </div>
-    <div id="enter_container">
+    <div id="enter_container" style="display: none;">
         <div class="mentor-wrap">
             <div class="avatar"></div>
             <div class="info-wrap">
@@ -224,10 +408,47 @@
                 <div class="desc">Learning roadmap</div>
             </div>
         </div>
-        <div class="first_message">
+        <div class="first-message">
             <input type="text" placeholder="Tell me what you want to learn such as ‘Train Ai model’">
             <div id="start_chat">
                 <div class="ico"></div>
+            </div>
+        </div>
+    </div>
+    <div id="chat_container">
+        <div id="chat_list">
+            <div class="my-session">
+                <div class="avatar"></div>
+                <div class="speak">
+                    <div class="inner">How to train Ai model</div>
+                </div>
+            </div>
+            <div class="loading-wrap">
+                <div class="loading">
+                    <div class="arrow"></div>
+                    <div class="circle"></div>
+                </div>
+                <div class="loading-text">Plato Ai is generating...</div>
+            </div>
+            <div class="mentor-session">
+                <div class="avatar"></div>
+                <div class="speak-group">
+                    <div class="name">LLM mentor@Plato</div>
+                    <div class="speak">
+                        <div class="inner">Depending on your project, gather data that is relevant to the problem you want the AI model to solve. - Clean and preprocess the data: Data can be messy. Remove inconsistencies, handle missing values, and preprocess the data to make it suitable for training.Clean and preprocess the data: Data can be messy. Remove inconsistencies, handle missing values.</div>
+                    </div>
+                    <div class="speak">
+                        <div class="inner">Depending on your project, gather data that is relevant to the problem you want the AI model to solve. - Clean and preprocess the data: Data can be messy. Remove inconsistencies, handle missing values, and preprocess the data to make it suitable for training.Clean and preprocess the data: Data can be messy. Remove inconsistencies, handle missing values.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="menu_group">
+            <div class="textfield">
+                <input type="text" placeholder="Tell me what you want to learn">
+                <div id="send_prompt">
+                    <div class="ico"></div>
+                </div>
             </div>
         </div>
     </div>
