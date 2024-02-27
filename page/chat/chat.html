@@ -63,12 +63,18 @@
             opacity: 0.8;
             margin-top: 70px;
         }
+        #enter_container .first-message.focus {
+            box-shadow: 0px 0px 12px 0px #2F89D3;
+        }
+        #enter_container .first-message.hover {
+            box-shadow: 0px 0px 12px 0px #2F89D3;
+        }
         #enter_container .first-message input {
-            color: #2924408F;
+            color: #292440;
             outline: none;
             border: none;
             display: block;
-            font-size: 14px;
+            font-size: 16px;
             width: 700px;
             height: 56px;
             line-height: 56px;
@@ -83,6 +89,9 @@
             height: 40px;
             cursor: pointer;
             background: linear-gradient(63.98deg, #0A85EA 7.56%, #BCB3F3 87.52%), linear-gradient(0deg, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0.36));
+        }
+        #enter_container .first-message #start_chat:hover {
+            background: linear-gradient(63.98deg, #0A85EA 7.56%, #BCB3F3 87.52%);
         }
         #enter_container .first-message #start_chat .ico {
             width: 20.97px;
@@ -324,6 +333,12 @@
             margin-left: 72px;
             position: relative;
         }
+        #menu_group .textfield.focus {
+            box-shadow: 0px 0px 12px 0px #2F89D3;
+        }
+        #menu_group .textfield.hover {
+            box-shadow: 0px 0px 12px 0px #2F89D3;
+        }
         #menu_group .textfield::before {
             content: "";
             background-image: url(/asset/img/ico-star.svg);
@@ -335,15 +350,15 @@
             top: 16px;
         }
         #menu_group .textfield input {
-            color: #2924408F;
+            color: #292440;
             outline: none;
             border: none;
             display: block;
-            font-size: 14px;
+            font-size: 16px;
             width: 900px;
             height: 56px;
             line-height: 56px;
-            margin: 0 auto;
+            margin-left: 57px;
         }
         #menu_group .textfield #send_prompt {
             position: absolute;
@@ -354,6 +369,9 @@
             height: 40px;
             cursor: pointer;
             background: linear-gradient(63.98deg, #0A85EA 7.56%, #BCB3F3 87.52%), linear-gradient(0deg, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0.36));
+        }
+        #menu_group .textfield #start_chat:hover {
+            background: linear-gradient(63.98deg, #0A85EA 7.56%, #BCB3F3 87.52%);
         }
         #menu_group .textfield #send_prompt .ico {
             width: 20.97px;
@@ -380,7 +398,7 @@
             <div class="avatar"></div>
         </div>
     </div>
-    <div id="enter_container" style="display: none;">
+    <div id="enter_container">
         <div class="mentor-wrap">
             <div class="avatar"></div>
             <div class="info-wrap">
@@ -409,13 +427,13 @@
             </div>
         </div>
         <div class="first-message">
-            <input type="text" placeholder="Tell me what you want to learn such as ‘Train Ai model’">
+            <input type="text" id="first_prompt" placeholder="Tell me what you want to learn such as ‘Train Ai model’">
             <div id="start_chat">
                 <div class="ico"></div>
             </div>
         </div>
     </div>
-    <div id="chat_container">
+    <div id="chat_container" style="display:none">
         <div id="chat_list">
             <div class="my-session">
                 <div class="avatar"></div>
@@ -445,12 +463,47 @@
         </div>
         <div id="menu_group">
             <div class="textfield">
-                <input type="text" placeholder="Tell me what you want to learn">
+                <input type="text" id="prompt_input" placeholder="Tell me what you want to learn">
                 <div id="send_prompt">
                     <div class="ico"></div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        document.querySelector('#menu_group .textfield').addEventListener('mouseenter', () => {
+            const classStr = document.querySelector('#menu_group .textfield').getAttribute('class');
+            let classes = classStr.split(' ');
+            if (!classes.includes('hover')) {
+                document.querySelector('#menu_group .textfield').setAttribute('class', classStr + ' hover');
+            }
+        });
+        document.querySelector('#menu_group .textfield').addEventListener('mouseleave', () => {
+            const classStr = document.querySelector('#menu_group .textfield').getAttribute('class');
+            let classes = classStr.split(' ');
+            classes = classes.filter(cls => cls !== 'hover');
+            document.querySelector('#menu_group .textfield').setAttribute('class', classes.join(' '));
+        });
+
+        document.querySelector('#prompt_input').addEventListener('focus', () => {
+            const classStr = document.querySelector('#menu_group .textfield').getAttribute('class');
+            let classes = classStr.split(' ');
+            if (!classes.includes('focus')) {
+                document.querySelector('#menu_group .textfield').setAttribute('class', classStr + ' focus');
+            }
+        });
+        document.querySelector('#prompt_input').addEventListener('blur', () => {
+            const classStr = document.querySelector('#menu_group .textfield').getAttribute('class');
+            let classes = classStr.split(' ');
+            classes = classes.filter(cls => cls !== 'focus');
+            document.querySelector('#menu_group .textfield').setAttribute('class', classes.join(' '));
+        });
+        document.getElementById('start_chat').addEventListener('click', () => {
+            const msg = document.getElementById('first_prompt').value;
+            document.getElementById('first_prompt').value = '';
+            document.getElementById('enter_container').style.display = 'none';
+            document.getElementById('chat_container').style.display = 'block';
+        });
+    </script>
 </body>
 </html>
