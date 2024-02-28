@@ -90,8 +90,8 @@
             cursor: pointer;
             background: linear-gradient(63.98deg, #0A85EA 7.56%, #BCB3F3 87.52%), linear-gradient(0deg, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0.36));
         }
-        #enter_container .first-message #start_chat:hover {
-            background: linear-gradient(63.98deg, #0A85EA 7.56%, #BCB3F3 87.52%);
+        #enter_container .first-message #start_chat.disable {
+            background: linear-gradient(63.98deg, #69B3F2 7.56%, #D3CEF8 87.52%);
         }
         #enter_container .first-message #start_chat .ico {
             width: 20.97px;
@@ -370,8 +370,8 @@
             cursor: pointer;
             background: linear-gradient(63.98deg, #0A85EA 7.56%, #BCB3F3 87.52%), linear-gradient(0deg, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0.36));
         }
-        #menu_group .textfield #start_chat:hover {
-            background: linear-gradient(63.98deg, #0A85EA 7.56%, #BCB3F3 87.52%);
+        #menu_group .textfield #send_prompt.disable {
+            background: linear-gradient(63.98deg, #69B3F2 7.56%, #D3CEF8 87.52%);
         }
         #menu_group .textfield #send_prompt .ico {
             width: 20.97px;
@@ -428,81 +428,127 @@
         </div>
         <div class="first-message">
             <input type="text" id="first_prompt" placeholder="Tell me what you want to learn such as ‘Train Ai model’">
-            <div id="start_chat">
+            <div id="start_chat" class="btn disable">
                 <div class="ico"></div>
             </div>
         </div>
     </div>
     <div id="chat_container" style="display:none">
         <div id="chat_list">
-            <div class="my-session">
-                <div class="avatar"></div>
-                <div class="speak">
-                    <div class="inner">How to train Ai model</div>
-                </div>
-            </div>
-            <div class="loading-wrap">
-                <div class="loading">
-                    <div class="arrow"></div>
-                    <div class="circle"></div>
-                </div>
-                <div class="loading-text">Plato Ai is generating...</div>
-            </div>
-            <div class="mentor-session">
-                <div class="avatar"></div>
-                <div class="speak-group">
-                    <div class="name">LLM mentor@Plato</div>
-                    <div class="speak">
-                        <div class="inner">Depending on your project, gather data that is relevant to the problem you want the AI model to solve. - Clean and preprocess the data: Data can be messy. Remove inconsistencies, handle missing values, and preprocess the data to make it suitable for training.Clean and preprocess the data: Data can be messy. Remove inconsistencies, handle missing values.</div>
-                    </div>
-                    <div class="speak">
-                        <div class="inner">Depending on your project, gather data that is relevant to the problem you want the AI model to solve. - Clean and preprocess the data: Data can be messy. Remove inconsistencies, handle missing values, and preprocess the data to make it suitable for training.Clean and preprocess the data: Data can be messy. Remove inconsistencies, handle missing values.</div>
-                    </div>
-                </div>
-            </div>
+
         </div>
         <div id="menu_group">
             <div class="textfield">
                 <input type="text" id="prompt_input" placeholder="Tell me what you want to learn">
-                <div id="send_prompt">
+                <div id="send_prompt" class="btn disable">
                     <div class="ico"></div>
                 </div>
             </div>
         </div>
     </div>
     <script>
-        document.querySelector('#menu_group .textfield').addEventListener('mouseenter', () => {
-            const classStr = document.querySelector('#menu_group .textfield').getAttribute('class');
+        function addClass(el, className) {
+            const classStr = el.getAttribute('class');
             let classes = classStr.split(' ');
-            if (!classes.includes('hover')) {
-                document.querySelector('#menu_group .textfield').setAttribute('class', classStr + ' hover');
+            if (!classes.includes(className)) {
+                el.setAttribute('class', `${classStr} ${className}`);
             }
+        }
+        function removeClass(el, className) {
+            const classStr = el.getAttribute('class');
+            let classes = classStr.split(' ');
+            classes = classes.filter(cls => cls !== className);
+            el.setAttribute('class', classes.join(' '));
+        }
+        function addMySession(word) {
+            const list = document.getElementById('chat_list');
+            list.innerHTML += `<div class="my-session">
+                <div class="avatar"></div>
+                <div class="speak">
+                    <div class="inner">${word}</div>
+                </div>
+            </div>`;
+        }
+        function addMentorSession(wordList, mentorName) {
+            const list = document.getElementById('chat_list');
+            let htmlFrag = `<div class="mentor-session">
+                <div class="avatar"></div>
+                <div class="speak-group">
+                    <div class="name">${mentorName}</div>`;
+            for (let word of wordList) {
+                htmlFrag += `<div class="speak">
+                        <div class="inner">${word}</div>
+                    </div>`;
+            }
+            htmlFrag += '</div></div>';
+            list.innerHTML += htmlFrag;
+        }
+        function addLoading() {
+            const list = document.getElementById('chat_list');
+            list.innerHTML += `<div id="loading_bar" class="loading-wrap">
+                <div class="loading">
+                    <div class="arrow"></div>
+                    <div class="circle"></div>
+                </div>
+                <div class="loading-text">Plato Ai is generating...</div>
+            </div>`;
+        }
+        function hideLoading() {
+            const el = document.getElementById('loading_bar');
+            el.remove();
+        }
+
+        document.querySelector('#menu_group .textfield').addEventListener('mouseenter', () => {
+            const el = document.querySelector('#menu_group .textfield');
+            addClass(el, 'hover');
         });
         document.querySelector('#menu_group .textfield').addEventListener('mouseleave', () => {
-            const classStr = document.querySelector('#menu_group .textfield').getAttribute('class');
-            let classes = classStr.split(' ');
-            classes = classes.filter(cls => cls !== 'hover');
-            document.querySelector('#menu_group .textfield').setAttribute('class', classes.join(' '));
+            const el = document.querySelector('#menu_group .textfield');
+            removeClass(el, 'hover');
         });
 
         document.querySelector('#prompt_input').addEventListener('focus', () => {
-            const classStr = document.querySelector('#menu_group .textfield').getAttribute('class');
-            let classes = classStr.split(' ');
-            if (!classes.includes('focus')) {
-                document.querySelector('#menu_group .textfield').setAttribute('class', classStr + ' focus');
-            }
+            const el = document.querySelector('#menu_group .textfield');
+            addClass(el, 'focus');
         });
         document.querySelector('#prompt_input').addEventListener('blur', () => {
-            const classStr = document.querySelector('#menu_group .textfield').getAttribute('class');
-            let classes = classStr.split(' ');
-            classes = classes.filter(cls => cls !== 'focus');
-            document.querySelector('#menu_group .textfield').setAttribute('class', classes.join(' '));
+            const el = document.querySelector('#menu_group .textfield');
+            removeClass(el, 'focus');
         });
         document.getElementById('start_chat').addEventListener('click', () => {
             const msg = document.getElementById('first_prompt').value;
             document.getElementById('first_prompt').value = '';
             document.getElementById('enter_container').style.display = 'none';
             document.getElementById('chat_container').style.display = 'block';
+
+            // mock
+            addMySession(msg);
+            addLoading();
+            setTimeout(() => {
+                hideLoading();
+                addMentorSession([
+                    'Depending on your project, gather data that is relevant to the problem you want the AI model to solve. - Clean and preprocess the data: Data can be messy. Remove inconsistencies, handle missing values, and preprocess the data to make it suitable for training.Clean and preprocess the data: Data can be messy. Remove inconsistencies, handle missing values.',
+                    'Are you ready to start learning journey?',
+                ], 'LLM mentor@Plato');
+            }, 3000);
+        });
+        document.getElementById('prompt_input').addEventListener('input', function () {
+            const el = document.getElementById('send_prompt');
+            if (this.value.trim().length === 0) {
+                addClass(el, 'disable');
+            }
+            else {
+                removeClass(el, 'disable');
+            }
+        });
+        document.getElementById('first_prompt').addEventListener('input', function () {
+            const el = document.getElementById('start_chat');
+            if (this.value.trim().length === 0) {
+                addClass(el, 'disable');
+            }
+            else {
+                removeClass(el, 'disable');
+            }
         });
     </script>
 </body>
