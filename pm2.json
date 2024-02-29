@@ -3,7 +3,7 @@
     {
       "name": "seamless",
       "script": "index.js",
-      "cwd": "/home/sugar/seamless",
+      "cwd": "/home/sugar/plato_web",
       "max_memory_restart": "1024M",
       "autorestart": true,
       "node_args": [],

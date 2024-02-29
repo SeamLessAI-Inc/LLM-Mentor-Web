@@ -1,0 +1,1 @@
+scp -r api middleware page service static util index.js package.json sugar@zhuyingda.com:plato_web
