@@ -469,19 +469,21 @@
                 </div>
             </div>`;
         }
-        function addMentorSession(wordList, mentorName) {
+        function addMentorSession(mentorName) {
             const list = document.getElementById('chat_list');
             let htmlFrag = `<div class="mentor-session">
                 <div class="avatar"></div>
                 <div class="speak-group">
                     <div class="name">${mentorName}</div>`;
-            for (let word of wordList) {
-                htmlFrag += `<div class="speak">
-                        <div class="inner">${word}</div>
-                    </div>`;
-            }
+            htmlFrag += `<div class="speak">
+                    <div class="inner"></div>
+                </div>`;
             htmlFrag += '</div></div>';
             list.innerHTML += htmlFrag;
+        }
+        function updateMentorSession(text) {
+            const targetEl = document.querySelector('#chat_list .mentor-session:last-of-type .speak:last-of-type > .inner');
+            targetEl.innerText += text;
         }
         function addLoading() {
             const list = document.getElementById('chat_list');
@@ -515,7 +517,7 @@
             const el = document.querySelector('#menu_group .textfield');
             removeClass(el, 'focus');
         });
-        document.getElementById('start_chat').addEventListener('click', () => {
+        document.getElementById('start_chat').addEventListener('click', async () => {
             const msg = document.getElementById('first_prompt').value;
             document.getElementById('first_prompt').value = '';
             document.getElementById('enter_container').style.display = 'none';
@@ -524,13 +526,19 @@
             // mock
             addMySession(msg);
             addLoading();
-            setTimeout(() => {
-                hideLoading();
-                addMentorSession([
-                    'Depending on your project, gather data that is relevant to the problem you want the AI model to solve. - Clean and preprocess the data: Data can be messy. Remove inconsistencies, handle missing values, and preprocess the data to make it suitable for training.Clean and preprocess the data: Data can be messy. Remove inconsistencies, handle missing values.',
-                    'Are you ready to start learning journey?',
-                ], 'LLM mentor@Plato');
-            }, 3000);
+            const messages = [{ role: 'user', content: msg }];
+            let isLoading = true;
+            await getStreamResponse('/v1/plato/senior', messages, (text) => {
+                if (isLoading) {
+                    isLoading = false;
+                    hideLoading();
+                    addMentorSession('LLM mentor@Plato');
+                    updateMentorSession(text);
+                }
+                else {
+                    updateMentorSession(text);
+                }
+            });
         });
         document.getElementById('prompt_input').addEventListener('input', function () {
             const el = document.getElementById('send_prompt');
@@ -550,6 +558,47 @@
                 removeClass(el, 'disable');
             }
         });
+
+        async function getStreamResponse(url, messages, cb) {
+            const headers = { "Content-Type": "application/json" };
+            const payload = {
+                user_id: "user_id",
+                plato_id: "llm",
+                lang: "en",
+                step: 0,
+                messages: messages,
+            };
+
+            const response = await fetch(url, {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(payload),
+            });
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+
+            reader.read().then(function processText({ done, value }) {
+                console.log('sse get chunk:');
+                if (done) return;
+                const chunk = decoder.decode(value, { stream: true });
+                const lines = chunk.split("\n");
+                lines.forEach((line) => {
+                    if (line && line.startsWith("data:")) {
+                    const data = JSON.parse(line.slice(5));
+                        if (data.content) {
+                            cb(data.content);
+                        }
+                        else {
+                            //end
+                            console.log('sse finish');
+                        }
+                    }
+                });
+
+                reader.read().then(processText);
+            });
+        }
     </script>
 </body>
 </html>

@@ -54,7 +54,7 @@ app.use(favicon(__dirname + '/static/favicon.ico'));
 
 const router = new Router();
 router.get('/', require('./page/home/home.js'));
-router.get('/seamless', require('./page/seamless/index.js'));
+router.get('/seamless', require('./page/home/home.js'));
 router.get('/seamless/signup', require('./page/login/login.js'));
 router.get('/seamless/login', require('./page/login/login.js'));
 router.get('/seamless/chat', sessionMW, require('./page/chat/chat.js'));
